@@ -23,5 +23,11 @@ public class Pixel {
 			return blue;
 		}
 		
+		public void setColor(int r, int b, int g) {
+			red = r;
+			green = g;
+			blue = b;
+		}
+		
 	
 }
