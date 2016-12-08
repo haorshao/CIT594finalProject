@@ -1,65 +1,76 @@
+/**
+ * This Loadfile class is for loading jpg images into the system and converting 
+ * the jpg images into the Pixels class format.
+ * @author Haoran Shao
+ */
 package database;
-
 import java.awt.Color;
-import java.awt.datatransfer.FlavorTable;
+import java.awt.font.ImageGraphicAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 
 public class Loadfile {
+	String inputFileName;
+	String outputFileName;
+	Pixels pixImage;
+	int imgType;
+	int width;
+	int height;
+	BufferedImage outputImage;
+	/**
+	 * 
+	 * @param inputFileName
+	 * @param outputFileName
+	 */
+	public Loadfile(String inputFileName, String outputFileName){
+		this.inputFileName = inputFileName;
+		this.outputFileName = outputFileName;
+		BufferedImage currentImg = null;
+		try {
+			currentImg = ImageIO.read(new File(this.inputFileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.width = currentImg.getWidth();
+		this.height = currentImg.getHeight();
+		pixImage = new Pixels(currentImg.getWidth(), currentImg.getHeight(), currentImg);
+		pixImage.readPixels();//comment this line if needed
+		this.imgType = currentImg.getType();
+		outputImage = new BufferedImage(this.width, this.height, this.imgType);
+	}
+	public void setFile(){
+		int[][] red = pixImage.getRed();
+		int[][] green = pixImage.getGreen();
+		int[][] blue = pixImage.getBlue();
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.height; j++){
+				int xindex = this.width - 1 - i;
+				int yindex = this.height - 1 - j;
+				int rgb = new Color(red[xindex][yindex], green[xindex][yindex], blue[xindex][yindex]).getRGB();
+				outputImage.setRGB(i, j, rgb);
+			}
+		}
+	}
+	public void outputFile(){
+		System.out.println("Processed File Starts Outputing..");
+		try {
+			ImageIO.write(this.outputImage, "jpg", new File(this.outputFileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("File Output Finished");
+	}
 	
-	
-	
+	/**
+	 * Main method in this class for testing ONLY.
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File("test.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Pixel[][] image = new Pixel[img.getWidth()][img.getHeight()];
-		for (int i = 0; i < img.getWidth(); i++) {
-			for (int j = 0; j < img.getHeight(); j++) {
-				Color color = new Color(img.getRGB(i, j));
-				image[i][j] = new Pixel(color.getRed(), color.getGreen(), color.getBlue());
-			}
-		}
-		for (int t = 0; t < 20; t++) {
-			for (int i = 1; i < image.length-1; i++) {
-				for (int j = 1; j < image[0].length-1; j++) {
-					int sumr = 0;
-					int sumg = 0;
-					int sumb = 0;
-					int[] delta = {-1, 0, 1};
-					for (int deltax : delta) {
-						for (int deltay : delta) {
-							sumr += image[i+deltax][j+deltay].getRed();
-							sumg += image[i+deltax][j+deltay].getGreen();
-							sumb += image[i+deltax][j+deltay].getBlue();
-						}
-					}
-					image[i][j] = new Pixel(sumr/9, sumg/9, sumb/9);
-				}
-			}
-		}
-		
-		
-		BufferedImage outputimg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		for (int i = 0; i < image.length; i++ ) {
-			for (int j = 0; j < image[0].length; j++) {
-				img.setRGB(i, j, new Color(image[i][j].getRed(),image[i][j].getGreen(),image[i][j].getBlue()).getRGB());
-			}
-		}
-		try {
-			ImageIO.write(img, "jpg", new File("output.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Loadfile test = new Loadfile("test.jpg", "outputtest.jpg");
+		test.setFile();
+		test.outputFile();
 	}
 }
