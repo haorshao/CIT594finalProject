@@ -5,12 +5,13 @@
  */
 package database;
 import java.awt.Color;
-import java.awt.font.ImageGraphicAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import ImageProcessing.Blur;
 
 public class Loadfile {
 	String inputFileName;
@@ -61,7 +62,7 @@ public class Loadfile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("File Output Finished");
+		System.out.println(this.outputFileName + " File Output Finished");
 	}
 	
 	/**
@@ -69,7 +70,10 @@ public class Loadfile {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Loadfile test = new Loadfile("test.jpg", "outputtest.jpg");
+		Loadfile test = new Loadfile("test.jpg", "outputBlurTest.jpg");
+		Blur testBlur = new Blur(test.pixImage, 100);
+		testBlur.blurProcess();
+		testBlur.setBlur();
 		test.setFile();
 		test.outputFile();
 	}

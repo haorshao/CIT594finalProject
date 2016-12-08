@@ -4,16 +4,18 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class Pixels {
-		int width;
-		int height;
+		private int width;
+		private int height;
 		private int[][] red;
 		private int[][] green;
 		private int[][] blue;
 		BufferedImage img;
+		private int imgType;
 		public Pixels(int width, int height, BufferedImage currentImg) {
 			this.width = width;
 			this.height = height;
 			img = currentImg;
+			imgType = img.getType();
 			red = new int[this.width][this.height];
 			green = new int[this.width][this.height];
 			blue = new int[this.width][this.height];
@@ -28,7 +30,15 @@ public class Pixels {
 				}
 			}
 		}
-		
+		public int getImgType() {
+			return imgType;
+		}
+		public int getWidth() {
+			return width;
+		}
+		public int getHeight() {
+			return height;
+		}
 		public int[][] getRed() {
 			return red;
 		}
@@ -47,6 +57,9 @@ public class Pixels {
 		public void setBlue(int[][] blue) {
 			this.blue = blue;
 		}
-		
+		public static void main(String[] args){
+			int[][] temp = new int[2][3];
+			System.out.println(temp.length);
+		}
 	
 }
