@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import ImageProcessing.Blur;
+import ImageProcessing.SobelEdges;
 
 public class Loadfile {
 	String inputFileName;
@@ -70,10 +71,13 @@ public class Loadfile {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Loadfile test = new Loadfile("test.jpg", "outputBlurTest.jpg");
-		Blur testBlur = new Blur(test.pixImage, 100);
-		testBlur.blurProcess();
-		testBlur.setBlur();
+		Loadfile test = new Loadfile("test.jpg", "outputSobelEdgesTest.jpg");
+		SobelEdges testEdge = new SobelEdges(test.pixImage);
+		testEdge.SobelEdgeProcess();
+		testEdge.setSobelEdges();
+//		Blur testBlur = new Blur(test.pixImage, 100);
+//		testBlur.blurProcess();
+//		testBlur.setBlur();
 		test.setFile();
 		test.outputFile();
 	}
