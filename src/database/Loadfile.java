@@ -11,17 +11,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import ImageProcessing.Blur;
 import ImageProcessing.SobelEdges;
 
 public class Loadfile {
-	String inputFileName;
-	String outputFileName;
-	Pixels pixImage;
-	int imgType;
-	int width;
-	int height;
-	BufferedImage outputImage;
+	public String inputFileName;
+	public String outputFileName;
+	public Pixels pixImage;
+	public int imgType;
+	public int width;
+	public int height;
+	public BufferedImage outputImage;
 	/**
 	 * 
 	 * @param inputFileName
