@@ -5,28 +5,38 @@ import java.awt.image.BufferedImage;
 import database.Pixels;
 
 public class Blur {
-	int numIter;
+	int numIter = 1;
 	Pixels current;
 //	Pixels processed;
 	int[][] redResult;
 	int[][] greenResult;
 	int[][] blueResult;
+	int width;
+	int height;
 	public Blur(Pixels current, int numIter){
 		System.out.println("Blur loading..");
 		this.current = current;
 		this.numIter = numIter;
-//		BufferedImage newest = new BufferedImage(current.getWidth(),current.getHeight(),current.getImgType());
-//		processed = new Pixels(newest.getWidth(), newest.getHeight(), newest);
+		width = current.getWidth();
+		height = current.getHeight();
 		System.out.println("Blur loading finished...");
 	}
+	
+	public Blur(Pixels current){
+		System.out.println("Blur loading..");
+		this.current = current;
+//		this.numIter = numIter;
+		width = current.getWidth();
+		height = current.getHeight();
+		System.out.println("Blur loading finished...");
+	}
+	
 	public void blurProcess(){
 		System.out.println("Start Blurring...");
 		if(this.numIter <= 0){
 			System.out.println("ERROR: BLUR ITERATIONS WRONG");
 			return;
 		}
-		int width = current.getWidth();
-		int height = current.getHeight();
 		int[][] red = current.getRed();
 		int[][] green = current.getGreen();
 		int[][] blue = current.getBlue();
@@ -61,6 +71,7 @@ public class Blur {
 			}
 		}
 		for (int count = 1; count <= this.numIter; count++) {
+			  System.out.println("Blur: " + count);
 			  for (int i = 0; i < width; i++) {
 				  for (int j = 0; j < height; j++) {
 					  redResult[i][j] = 0;
