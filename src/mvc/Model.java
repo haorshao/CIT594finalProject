@@ -1,5 +1,7 @@
 package mvc;
 
+import java.awt.image.BufferedImage;
+
 import ImageProcessing.Blur;
 import ImageProcessing.SobelEdges;
 import database.Loadfile;
@@ -28,7 +30,7 @@ public class Model {
 	
 	public void blurButton(){
 		long start = System.currentTimeMillis();
-		Blur test = new Blur(loadBlur.pixImage, 300);
+		Blur test = new Blur(loadBlur.pixImage, 20);
 		test.blurProcess();
 		test.setBlur();
 		loadBlur.setFile();

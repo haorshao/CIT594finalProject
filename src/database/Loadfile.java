@@ -21,6 +21,7 @@ public class Loadfile {
 	public int width;
 	public int height;
 	public BufferedImage outputImage;
+	public BufferedImage currentImg;
 	/**
 	 * 
 	 * @param inputFileName
@@ -29,7 +30,7 @@ public class Loadfile {
 	public Loadfile(String inputFileName, String outputFileName){
 		this.inputFileName = inputFileName;
 		this.outputFileName = outputFileName;
-		BufferedImage currentImg = null;
+		currentImg = null;
 		try {
 			currentImg = ImageIO.read(new File(this.inputFileName));
 		} catch (IOException e) {
