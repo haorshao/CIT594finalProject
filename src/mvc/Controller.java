@@ -26,10 +26,7 @@ import database.Loadfile;
 public class Controller implements ActionListener, ChangeListener{
 	View theView;
 	Model theModel;
-//	Loadfile loadBlur;
-//	Loadfile loadEdge;
 	int blurIter;
-//	Blur blurSl;
 	int prevSlider;
 	public Controller(View theView, Model theModel){
 		this.theView = theView;
@@ -94,8 +91,13 @@ public class Controller implements ActionListener, ChangeListener{
 		 System.out.println("Loading complete.");
 		 System.out.println("Image: " + theModel.loadBlur.inputFileName);
 		 System.out.println("Mission Complete");
+		 System.out.println("Updating original img..");
 		 updateImg(theModel.loadBlur.currentImg);
-
+		 System.out.println("Updating original img finished...");
+		 theModel.blurButton();
+		 System.out.println("Updating processed img..");
+		 updateImg(theModel.loadBlur.outputImage);
+		 System.out.println("Updating processed img finished..");
 	}
 	
 	public JLabel createIcon(BufferedImage img) {
