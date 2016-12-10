@@ -30,7 +30,7 @@ public class Model {
 	
 	public void blurButton(){
 		long start = System.currentTimeMillis();
-		Blur test = new Blur(loadBlur.pixImage, 100);
+		Blur test = new Blur(loadBlur.pixImage, 20);
 		test.blurProcess();
 		test.setBlur();
 		loadBlur.setFile();
