@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 public class Pixels {
 		private int width;
 		private int height;
-		private int[][] red;
-		private int[][] green;
-		private int[][] blue;
+		private short[][] red;
+		private short[][] green;
+		private short[][] blue;
 		BufferedImage img;
 		private int imgType;
 		public Pixels(int width, int height, BufferedImage currentImg) {
@@ -16,17 +16,17 @@ public class Pixels {
 			this.height = height;
 			img = currentImg;
 			imgType = img.getType();
-			red = new int[this.width][this.height];
-			green = new int[this.width][this.height];
-			blue = new int[this.width][this.height];
+			red = new short[this.width][this.height];
+			green = new short[this.width][this.height];
+			blue = new short[this.width][this.height];
 		}
 		public void readPixels(){
 			for(int i = 0; i < this.width; i++){
 				for(int j = 0; j < this.height; j++){
 					Color color = new Color(img.getRGB(i, j));
-					red[i][j] = color.getRed();
-					green[i][j] = color.getGreen();
-					blue[i][j] = color.getBlue();
+					red[i][j] = (short)color.getRed();
+					green[i][j] = (short)color.getGreen();
+					blue[i][j] = (short)color.getBlue();
 				}
 			}
 		}
@@ -39,22 +39,22 @@ public class Pixels {
 		public int getHeight() {
 			return height;
 		}
-		public int[][] getRed() {
+		public short[][] getRed() {
 			return red;
 		}
-		public void setRed(int[][] red) {
+		public void setRed(short[][] red) {
 			this.red = red;
 		}
-		public int[][] getGreen() {
+		public short[][] getGreen() {
 			return green;
 		}
-		public void setGreen(int[][] green) {
+		public void setGreen(short[][] green) {
 			this.green = green;
 		}
-		public int[][] getBlue() {
+		public short[][] getBlue() {
 			return blue;
 		}
-		public void setBlue(int[][] blue) {
+		public void setBlue(short[][] blue) {
 			this.blue = blue;
 		}
 		public static void main(String[] args){

@@ -5,47 +5,51 @@ import java.awt.image.BufferedImage;
 import database.Pixels;
 
 public class Blur {
-	int numIter = 1;
+	private int numIter = 1;
 	Pixels current;
 //	Pixels processed;
-	int[][] redResult;
-	int[][] greenResult;
-	int[][] blueResult;
+	short[][] redResult;
+	short[][] greenResult;
+	short[][] blueResult;
 	int width;
 	int height;
 	public Blur(Pixels current, int numIter){
-		System.out.println("Blur loading..");
+//		System.out.println("Blur loading..");
 		this.current = current;
 		this.numIter = numIter;
 		width = current.getWidth();
 		height = current.getHeight();
-		System.out.println("Blur loading finished...");
+//		System.out.println("Blur loading finished...");
 	}
 	
+	public void setNumIter(int numIter) {
+		this.numIter = numIter;
+	}
+
 	public Blur(Pixels current){
-		System.out.println("Blur loading..");
+//		System.out.println("Blur loading..");
 		this.current = current;
 //		this.numIter = numIter;
 		width = current.getWidth();
 		height = current.getHeight();
-		System.out.println("Blur loading finished...");
+//		System.out.println("Blur loading finished...");
 	}
 	
 	public void blurProcess(){
-		System.out.println("Start Blurring...");
+//		System.out.println("Start Blurring...");
 		if(this.numIter <= 0){
 			System.out.println("ERROR: BLUR ITERATIONS WRONG");
 			return;
 		}
-		int[][] red = current.getRed();
-		int[][] green = current.getGreen();
-		int[][] blue = current.getBlue();
-		int[][] redTemp = new int[width + 2][height + 2];
-		int[][] blueTemp = new int[width + 2][height + 2];
-		int[][] greenTemp = new int[width + 2][height + 2];
-		redResult = new int[width][height];
-		blueResult = new int[width][height];
-		greenResult = new int[width][height];
+		short[][] red = current.getRed();
+		short[][] green = current.getGreen();
+		short[][] blue = current.getBlue();
+		short[][] redTemp = new short[width + 2][height + 2];
+		short[][] blueTemp = new short[width + 2][height + 2];
+		short[][] greenTemp = new short[width + 2][height + 2];
+		redResult = new short[width][height];
+		blueResult = new short[width][height];
+		greenResult = new short[width][height];
 		/*Enlarge the original pixel array with 1 on the boundary*/
 		for (int i = 0; i < greenTemp.length; i++) {
 			  redTemp[i][0] = 0;
@@ -71,7 +75,7 @@ public class Blur {
 			}
 		}
 		for (int count = 1; count <= this.numIter; count++) {
-			  System.out.println("Blur: " + count);
+//			  System.out.println("Blur: " + count);
 			  for (int i = 0; i < width; i++) {
 				  for (int j = 0; j < height; j++) {
 					  redResult[i][j] = 0;
@@ -113,13 +117,13 @@ public class Blur {
 					}
 			  }
 		}
-		System.out.println("Blur process finished");
+//		System.out.println("Blur process finished");
 	}
 	public void setBlur(){
 		current.setRed(redResult);
 		current.setGreen(greenResult);
 		current.setBlue(blueResult);
-		System.out.println("Blur DONE");
+//		System.out.println("Blur DONE");
 	}
 	
 	public static void main(String[] args) {

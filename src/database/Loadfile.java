@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -43,18 +44,41 @@ public class Loadfile {
 		this.imgType = currentImg.getType();
 		outputImage = new BufferedImage(this.width, this.height, this.imgType);
 	}
+	
+	public Loadfile(URL link, String inputFileName, String outputFileName){
+		this.inputFileName = inputFileName;
+		this.outputFileName = outputFileName;
+		currentImg = null;
+		try {
+			currentImg = ImageIO.read(link);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.width = currentImg.getWidth();
+		this.height = currentImg.getHeight();
+		pixImage = new Pixels(currentImg.getWidth(), currentImg.getHeight(), currentImg);
+		pixImage.readPixels();//comment this line if needed
+		this.imgType = currentImg.getType();
+		outputImage = new BufferedImage(this.width, this.height, this.imgType);
+	}
 	public void setFile(){
-		int[][] red = pixImage.getRed();
-		int[][] green = pixImage.getGreen();
-		int[][] blue = pixImage.getBlue();
+		short[][] red = pixImage.getRed();
+		short[][] green = pixImage.getGreen();
+		short[][] blue = pixImage.getBlue();
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
-				int xindex = this.width - 1 - i;
-				int yindex = this.height - 1 - j;
-				int rgb = new Color(red[xindex][yindex], green[xindex][yindex], blue[xindex][yindex]).getRGB();
+//				int xindex = this.width - 1 - i;
+//				int yindex = this.height - 1 - j;
+//				int rgb = new Color(red[xindex][yindex], green[xindex][yindex], blue[xindex][yindex]).getRGB();
+				int rgb = new Color(red[i][j], green[i][j], blue[i][j]).getRGB();
 				outputImage.setRGB(i, j, rgb);
 			}
 		}
+	}
+	
+	
+	public void setOutputFileName(String outputFileName) {
+		this.outputFileName = outputFileName;
 	}
 	public void outputFile(){
 		System.out.println("Processed File Starts Outputing..");
