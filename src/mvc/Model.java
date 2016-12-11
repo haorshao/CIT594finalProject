@@ -18,19 +18,29 @@ public class Model {
 	String outputName;
 	HashMap<Integer, BufferedImage> map;
 	Controller theController;
+	/**
+	 * Constructor
+	 */
 	public Model(){
 		loadBlur = null;
 		loadEdge = null;
 		loadBlurSl = null;
 		map = new HashMap<Integer, BufferedImage>();
-//		theController = new Controller(theView, this);
-//		this.theController = theController;
 	}
 	
+	/**
+	 * set controller
+	 * @param theController
+	 */
 	public void setTheController(Controller theController) {
 		this.theController = theController;
 	}
-
+	/**
+	 * load file and blur
+	 * @param inputName
+	 * @param outputNameBlur
+	 * @param outputNameEdge
+	 */
 	public void loadFile(String inputName, String outputNameBlur, String outputNameEdge){
 //		System.out.println("Loading");
 		this.inputName = inputName;
@@ -39,9 +49,14 @@ public class Model {
 		loadEdge = new Loadfile(inputName, outputNameEdge);
 		loadBlurSl = new Loadfile(inputName, outputNameBlur);
 		blurSlider();
-//		blurOri = new Blur(loadBlurSl.pixImage);
 	}
-	
+	/**
+	 * load image according the link
+	 * @param link
+	 * @param inputName
+	 * @param outputNameBlur
+	 * @param outputNameEdge
+	 */
 	public void loadLink(URL link, String inputName, String outputNameBlur, String outputNameEdge){
 		this.inputName = inputName;
 		this.outputName = outputNameBlur;
@@ -50,7 +65,9 @@ public class Model {
 		loadBlurSl = new Loadfile(link, inputName, outputNameBlur);
 		blurSlider();
 	}
-	
+	/**
+	 * detect the edge
+	 */
 	public void edgeDetection(){
 		SobelEdges testEdge = new SobelEdges(loadEdge.pixImage);
 		testEdge.SobelEdgeProcess();
@@ -58,7 +75,9 @@ public class Model {
 		loadEdge.setFile();
 //		loadEdge.outputFile();
 	}
-	
+	/**
+	 * export the blur image
+	 */
 	public void exportBlur(){
 		if(theController.url == false){
 			loadBlur = new Loadfile(inputName, this.outputName);
@@ -75,18 +94,26 @@ public class Model {
 		long end = System.currentTimeMillis();
 		System.out.println("Time: " + (end - start));
 	}
-	
+	/**
+	 * export the edge image
+	 */
 	public void exportEdge(){
 		loadEdge.outputFile();
 	}
-	
+	/**
+	 * copy buffered image
+	 * @param bi
+	 * @return
+	 */
 	public BufferedImage deepCopy(BufferedImage bi) {
 		 ColorModel cm = bi.getColorModel();
 		 boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		 WritableRaster raster = bi.copyData(null);
 		 return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
-	
+	/**
+	 * iterate 100 blurring and store all the bufferedimage
+	 */
 	public void blurSlider(){
 		Blur blurSl = new Blur(loadBlurSl.pixImage);
 		for(int i = 1; i <= 100; i++){

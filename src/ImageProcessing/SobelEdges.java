@@ -16,6 +16,10 @@ public class SobelEdges {
 	int[][] gyBlue;
 	int width;
 	int height;
+	/**
+	 * Constructor
+	 * @param current
+	 */
 	public SobelEdges(Pixels current){
 		System.out.println("SobelEdges loading...");
 		this.current = current;
@@ -33,11 +37,16 @@ public class SobelEdges {
 		gyBlue = new int[width][height];
 		System.out.println("SobelEdges loading finished...");
 	}
+	/**
+	 * mag2gray() maps an energy (squared vector magnitude) in the range
+	 * 0...24,969,600 to a grayscale intensity in the range 0...255.  The map
+	 * is logarithmic, but shifted so that values of 5,080 and below map to zero.
+	 * UC Berkeley CS61B course material
+	 * @param mag
+	 * @return
+	 */
 	private static short mag2gray(long mag) {
 	    int intensity = (int)(30.0 * Math.log(1.0 + (double) mag) - 256.0);
-
-	    // Make sure the returned intensity is in the range 0...255, regardless of
-	    // the input value.
 	    if (intensity < 0) {
 	      intensity = 0;
 	    } else if (intensity > 255) {
@@ -45,6 +54,9 @@ public class SobelEdges {
 	    }
 	    return (short)intensity;
 	}
+	/**
+	 * detect edge using Sobel operator
+	 */
 	public void SobelEdgeProcess(){
 		System.out.println("Start Sobel Edge detecting...");
 		int[][] gxConstant =  {{1,0,-1},
@@ -123,6 +135,9 @@ public class SobelEdges {
 		}
 		System.out.println("Sobel Edge detection finished...");
 	}
+	/**
+	 * paint the edge
+	 */
 	public void setSobelEdges(){
 		for (int i = 0; i < this.width; i++) {
 		  for (int j = 0; j < this.height; j++) {
@@ -136,10 +151,4 @@ public class SobelEdges {
 		current.setBlue(blueResult);
 		System.out.println("Sobel Edge process DONE");
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

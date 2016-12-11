@@ -1,8 +1,4 @@
-/**
- * This Loadfile class is for loading jpg images into the system and converting 
- * the jpg images into the Pixels class format.
- * @author Haoran Shao
- */
+
 package database;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -13,7 +9,11 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import ImageProcessing.SobelEdges;
-
+/**
+ * This Loadfile class is for loading jpg images into the system and converting 
+ * the jpg images into the Pixels class format.
+ * @author Haoran Shao
+ */
 public class Loadfile {
 	public String inputFileName;
 	public String outputFileName;
@@ -24,7 +24,7 @@ public class Loadfile {
 	public BufferedImage outputImage;
 	public BufferedImage currentImg;
 	/**
-	 * 
+	 * Constructor
 	 * @param inputFileName
 	 * @param outputFileName
 	 */
@@ -44,7 +44,12 @@ public class Loadfile {
 		this.imgType = currentImg.getType();
 		outputImage = new BufferedImage(this.width, this.height, this.imgType);
 	}
-	
+	/**
+	 * Constructor for url image
+	 * @param link
+	 * @param inputFileName
+	 * @param outputFileName
+	 */
 	public Loadfile(URL link, String inputFileName, String outputFileName){
 		this.inputFileName = inputFileName;
 		this.outputFileName = outputFileName;
@@ -61,25 +66,30 @@ public class Loadfile {
 		this.imgType = currentImg.getType();
 		outputImage = new BufferedImage(this.width, this.height, this.imgType);
 	}
+	/**
+	 * paint the output image
+	 */
 	public void setFile(){
 		short[][] red = pixImage.getRed();
 		short[][] green = pixImage.getGreen();
 		short[][] blue = pixImage.getBlue();
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
-//				int xindex = this.width - 1 - i;
-//				int yindex = this.height - 1 - j;
-//				int rgb = new Color(red[xindex][yindex], green[xindex][yindex], blue[xindex][yindex]).getRGB();
 				int rgb = new Color(red[i][j], green[i][j], blue[i][j]).getRGB();
 				outputImage.setRGB(i, j, rgb);
 			}
 		}
 	}
-	
-	
+	/**
+	 * set the output file name
+	 * @param outputFileName
+	 */
 	public void setOutputFileName(String outputFileName) {
 		this.outputFileName = outputFileName;
 	}
+	/**
+	 * save the output image
+	 */
 	public void outputFile(){
 		System.out.println("Processed File Starts Outputing..");
 		try {
@@ -94,15 +104,12 @@ public class Loadfile {
 	 * Main method in this class for testing ONLY.
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		Loadfile test = new Loadfile("test.jpg", "outputSobelEdgesTest.jpg");
-		SobelEdges testEdge = new SobelEdges(test.pixImage);
-		testEdge.SobelEdgeProcess();
-		testEdge.setSobelEdges();
-//		Blur testBlur = new Blur(test.pixImage, 100);
-//		testBlur.blurProcess();
-//		testBlur.setBlur();
-		test.setFile();
-		test.outputFile();
-	}
+//	public static void main(String[] args) {
+//		Loadfile test = new Loadfile("test.jpg", "outputSobelEdgesTest.jpg");
+//		SobelEdges testEdge = new SobelEdges(test.pixImage);
+//		testEdge.SobelEdgeProcess();
+//		testEdge.setSobelEdges();
+//		test.setFile();
+//		test.outputFile();
+//	}
 }

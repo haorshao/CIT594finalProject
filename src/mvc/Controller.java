@@ -12,6 +12,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -25,6 +26,11 @@ public class Controller  implements ActionListener, ChangeListener {
 	boolean edgeDec;
 	boolean url;
 	URL link;
+	/**
+	 * Constructor
+	 * @param theView
+	 * @param theModel
+	 */
 	public Controller(View theView, Model theModel){
 		this.theView = theView;
 		this.theModel = theModel;
@@ -34,16 +40,21 @@ public class Controller  implements ActionListener, ChangeListener {
 		edgeDec = false;
 		url = false;
 	}
-	
+	/**
+	 * slider listener
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		this.edgeDec = false;
-		new BlurInController().execute();
+		JSlider source = (JSlider)e.getSource();
+	    if (!source.getValueIsAdjusting()) {
+	    	this.edgeDec = false;
+			new BlurInController().execute();
+	    }
 	}
-	@Override
 	/**
-	 * load from file or link
+	 * button listener
 	 */
+	@Override
 	public void actionPerformed(ActionEvent event){
 		String cmd = event.getActionCommand();
 		if(cmd.equals("Load")){
@@ -59,7 +70,6 @@ public class Controller  implements ActionListener, ChangeListener {
 					link = new URL(theView.getLink());
 					theView.statusLabel.setText("Current image: " + "Online Image");
 					System.out.println("Loading Image from " + "Online Image" + " ...");
-					
 					theModel.loadLink(link, "Online Image.jpg", "Online Image.jpg", "SobelEdges-" + "Online Image.jpg");
 					theView.statusLabel.setText("Current image: "+ theModel.loadBlur.inputFileName);
 					System.out.println("Loading complete.");
@@ -141,20 +151,28 @@ public class Controller  implements ActionListener, ChangeListener {
 		}
 	}
 	
+	/**
+	 * load file
+	 * @throws IOException
+	 */
 	private void loadStorageFile() throws IOException{
 		 new LoadInController().execute();
 	}
-	private void loadLinkFile() throws IOException{
-		
-	}
-	
+	/**
+	 * create icon for displaying image
+	 * @param img
+	 * @return
+	 */
 	public JLabel createIcon(BufferedImage img) {
 		ImageIcon icon = new ImageIcon(img);
 		icon.setImage(img.getScaledInstance(480, 360, Image.SCALE_DEFAULT));
 		JLabel label = new JLabel(icon);
 		return label;
 	}
-	
+	/**
+	 * update the display image
+	 * @param newImg
+	 */
 	public void updateImg(BufferedImage newImg) {
 		theView.p5.removeAll();
 		theView.p5.add(createIcon(newImg));

@@ -13,6 +13,11 @@ public class Blur {
 	short[][] blueResult;
 	int width;
 	int height;
+	/**
+	 * Constructor
+	 * @param current
+	 * @param numIter
+	 */
 	public Blur(Pixels current, int numIter){
 //		System.out.println("Blur loading..");
 		this.current = current;
@@ -21,11 +26,17 @@ public class Blur {
 		height = current.getHeight();
 //		System.out.println("Blur loading finished...");
 	}
-	
+	/**
+	 * set the blurring iteration
+	 * @param numIter
+	 */
 	public void setNumIter(int numIter) {
 		this.numIter = numIter;
 	}
-
+	/**
+	 * constructor
+	 * @param current
+	 */
 	public Blur(Pixels current){
 //		System.out.println("Blur loading..");
 		this.current = current;
@@ -34,7 +45,9 @@ public class Blur {
 		height = current.getHeight();
 //		System.out.println("Blur loading finished...");
 	}
-	
+	/**
+	 * blurring algorithm
+	 */
 	public void blurProcess(){
 //		System.out.println("Start Blurring...");
 		if(this.numIter <= 0){
@@ -119,6 +132,9 @@ public class Blur {
 		}
 //		System.out.println("Blur process finished");
 	}
+	/**
+	 * paint blurring image
+	 */
 	public void setBlur(){
 		current.setRed(redResult);
 		current.setGreen(greenResult);
@@ -126,8 +142,4 @@ public class Blur {
 //		System.out.println("Blur DONE");
 	}
 	
-	public static void main(String[] args) {
-		
-	}
-
 }

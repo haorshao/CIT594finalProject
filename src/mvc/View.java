@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +22,11 @@ import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeListener;
-
+/**
+ * GUI view
+ * @author Jiawei Xue
+ *
+ */
 public class View {
 	
 	JFrame frame;
@@ -32,15 +35,18 @@ public class View {
 	JTextField link;
     JSlider blurSlider;
     JLabel statusLabel;
-    JPanel p0, p1, p2, p3, p4, p5, p6;
-	
+    JPanel p0, p1, p2, p3, p4, p5;
+	/**
+	 * Constructor
+	 */
 	public View() {
-		
 		createComponents();
         doLayout();
         frame.setVisible(true);
 	}
-	
+	/**
+	 * create GUI components
+	 */
 	private void createComponents() {
     	frame = new JFrame("Image Processing");
     	// introduction panel
@@ -53,7 +59,6 @@ public class View {
     	statusLabel.setFont(newLabelFont);
     	p1.add(statusLabel);
     	
-
     	p2 = new JPanel();
     	load = new JButton("Load");
     	load.setPreferredSize(new Dimension(200, 30));
@@ -63,7 +68,8 @@ public class View {
         link.setForeground(Color.gray);
         p2.add(link);
         p2.add(load);
-        fileChooser = new JFileChooser();
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        fileChooser = new JFileChooser(workingDirectory);
     	fileChooser.setDialogTitle("Open your image");
         
     	p3 = new JPanel();
@@ -78,15 +84,8 @@ public class View {
     	blurSlider = new JSlider(1, 100);
     	blurSlider.setValue(0);
     	blurSlider.setPreferredSize(new Dimension(600, 50));
-    	Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
-    	labelTable.put(0, new JLabel("0"));
-    	labelTable.put(60, new JLabel("1"));
-    	labelTable.put(120, new JLabel("2"));
-    	labelTable.put(180, new JLabel("3"));
-    	labelTable.put(240, new JLabel("4"));
-    	labelTable.put(300, new JLabel("5"));
-    	blurSlider.setLabelTable(labelTable);
-    	blurSlider.setPaintLabels(true);
+    	blurSlider.setExtent(1);
+    	p4.add(new JLabel("Blur Extent:"));
     	p4.add(blurSlider);
     	
     	p0.setLayout(new GridLayout(4,1));
@@ -96,10 +95,6 @@ public class View {
     	p0.add(p4);
     	
     	p5 = new JPanel();
-    	
-    	// for output panel
-    	p6 = new JPanel();
-    	
     	BufferedImage img;
 		try {
 			img = ImageIO.read(new File("noimage.png"));
@@ -107,28 +102,28 @@ public class View {
 			icon.setImage(img.getScaledInstance(300, 300, Image.SCALE_DEFAULT));
 			JLabel label = new JLabel(icon);
 			p5.add(label);
-//			JOptionPane.showMessageDialog(null, label);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
 	}
-	
+	/**
+	 * components layout
+	 */
 	private void doLayout() { 
 		
     	frame.setLayout(new BorderLayout());
     	frame.setPreferredSize(new Dimension(975, 600));
     	frame.setResizable(false);
-//    	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//		frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
     	frame.add(p0, BorderLayout.NORTH);
     	frame.add(p5,BorderLayout.CENTER);
-//    	frame.add(p6,BorderLayout.EAST);
     	frame.pack();
     	doEnabling();
 	}
 	
+	/**
+	 * enable all buttons
+	 */
 	private void doEnabling() {
 		load.setEnabled(true);
 		blur.setEnabled(true);
@@ -153,12 +148,15 @@ public class View {
 		blurSlider.addChangeListener(listenForImg);
 	}
 	
+	/**
+	 * get the link
+	 * @return
+	 */
 	public String getLink() {
 		return link.getText();
 	}
 	
-	public static void main(String[] args) {
-		new View();
-	}
-
+//	public static void main(String[] args) {
+//		new View();
+//	}
 }
