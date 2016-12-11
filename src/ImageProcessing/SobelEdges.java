@@ -4,9 +4,9 @@ import database.Pixels;
 
 public class SobelEdges {
 	Pixels current;
-	int[][] redResult;
-	int[][] greenResult;
-	int[][] blueResult;
+	short[][] redResult;
+	short[][] greenResult;
+	short[][] blueResult;
 	long[][] energyPrev;
 	int[][] gxRed;
 	int[][] gxGreen;
@@ -21,9 +21,9 @@ public class SobelEdges {
 		this.current = current;
 		this.width = current.getWidth();
 		this.height = current.getHeight();
-		redResult = new int[width][height];
-		greenResult = new int[width][height];
-		blueResult = new int[width][height];
+		redResult = new short[width][height];
+		greenResult = new short[width][height];
+		blueResult = new short[width][height];
 		energyPrev = new long[width][height];
 		gxRed = new int[width][height];
 		gxGreen = new int[width][height];
@@ -33,7 +33,7 @@ public class SobelEdges {
 		gyBlue = new int[width][height];
 		System.out.println("SobelEdges loading finished...");
 	}
-	private static int mag2gray(long mag) {
+	private static short mag2gray(long mag) {
 	    int intensity = (int)(30.0 * Math.log(1.0 + (double) mag) - 256.0);
 
 	    // Make sure the returned intensity is in the range 0...255, regardless of
@@ -43,7 +43,7 @@ public class SobelEdges {
 	    } else if (intensity > 255) {
 	      intensity = 255;
 	    }
-	    return intensity;
+	    return (short)intensity;
 	}
 	public void SobelEdgeProcess(){
 		System.out.println("Start Sobel Edge detecting...");
@@ -53,12 +53,12 @@ public class SobelEdges {
 		int[][] gyConstant = {{1,2,1},
 								{0,0,0},
 								{-1,-2,-1}};
-		int[][] red = current.getRed();
-		int[][] green = current.getGreen();
-		int[][] blue = current.getBlue();
-		int[][] redTemp = new int[width + 2][height + 2];
-		int[][] greenTemp = new int[width + 2][height + 2];
-		int[][] blueTemp = new int[width + 2][height + 2];
+		short[][] red = current.getRed();
+		short[][] green = current.getGreen();
+		short[][] blue = current.getBlue();
+		short[][] redTemp = new short[width + 2][height + 2];
+		short[][] greenTemp = new short[width + 2][height + 2];
+		short[][] blueTemp = new short[width + 2][height + 2];
 		for (int i = 1; i < greenTemp.length - 1; i++) {
 			  redTemp[i][0] = red[i-1][0];
 			  redTemp[i][greenTemp[0].length - 1] = red[i - 1][this.height - 1];

@@ -67,7 +67,7 @@ public class View {
     	fileChooser.setDialogTitle("Open your image");
         
     	p3 = new JPanel();
-    	blur = new JButton("Blur");
+    	blur = new JButton("Export");
     	blur.setPreferredSize(new Dimension(200, 30));
     	edge = new JButton("Edge Detection");
     	edge.setPreferredSize(new Dimension(200, 30));
@@ -75,7 +75,7 @@ public class View {
     	p3.add(edge);
     	
     	p4 = new JPanel();
-    	blurSlider = new JSlider(1, 300);
+    	blurSlider = new JSlider(1, 100);
     	blurSlider.setValue(0);
     	blurSlider.setPreferredSize(new Dimension(600, 50));
     	Hashtable<Integer, JLabel> labelTable = new Hashtable<>();

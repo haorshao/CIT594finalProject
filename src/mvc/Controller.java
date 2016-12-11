@@ -1,6 +1,5 @@
 package mvc;
 
-import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,21 +22,23 @@ public class Controller  implements ActionListener, ChangeListener {
 	Model theModel;
 	int blurIter;
 	int prevSlider;
+	boolean edgeDec;
+	boolean url;
+	URL link;
 	public Controller(View theView, Model theModel){
 		this.theView = theView;
 		this.theModel = theModel;
 		this.theView.addViewListener(this);
 		this.theView.addChangeListener(this);
 		prevSlider = 0;
+		edgeDec = false;
+		url = false;
 	}
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		blurIter = theView.blurSlider.getValue();
-		System.out.println("BlurIter: " + blurIter);
-		int error = blurIter - prevSlider;
-		theModel.blurSlider(error);
-		prevSlider = blurIter;
+		this.edgeDec = false;
+		new BlurInController().execute();
 	}
 	@Override
 	/**
@@ -48,45 +49,72 @@ public class Controller  implements ActionListener, ChangeListener {
 		if(cmd.equals("Load")){
 			if (theView.getLink().equals("Image URL")) {
 				try {
-	                loadFile();
+	                loadStorageFile();
 	            } catch (IOException ioe) {
 	                System.out.println("not able to load from the file");
 	            }
 			} else {
 				try {
-					URL link = new URL(theView.getLink());
+					url = true;
+					link = new URL(theView.getLink());
+					theView.statusLabel.setText("Current image: " + "Online Image");
+					System.out.println("Loading Image from " + "Online Image" + " ...");
+					
+					theModel.loadLink(link, "Online Image.jpg", "Online Image.jpg", "SobelEdges-" + "Online Image.jpg");
+					theView.statusLabel.setText("Current image: "+ theModel.loadBlur.inputFileName);
+					System.out.println("Loading complete.");
+					System.out.println("Image: " + theModel.loadBlur.inputFileName);
+					System.out.println("Mission Complete");
+					System.out.println("Updating original img..");
+					updateImg(theModel.loadBlur.currentImg);
+					System.out.println("Updating original img finished...");
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			
 		}else if(cmd.equals("Edge Detection")){
-			theModel.edgeDetection();
-//			displayOutput(theModel.loadEdge.outputImage);
-			System.out.println("Updating processed img..");
-			updateImg(theModel.loadEdge.outputImage);
-			System.out.println("Updating processed img finished..");
-		}else if(cmd.equals("Blur")){
-//			theModel.blurButton();
-////			displayOutput(theModel.loadBlur.outputImage);
-//			System.out.println("Updating processed img..");
-//			updateImg(theModel.loadBlur.outputImage);
-//			System.out.println("Updating processed img finished..");
-			new BlurInController().execute();
+			edgeDec = true;
+			new EdgeInController().execute();
+		}else if(cmd.equals("Export")){
+			new ExportInController().execute();
 		}
 	}
-	class BlurInController extends SwingWorker<Void, Void>{
+	
+	class ExportInController extends SwingWorker<Void, Void>{
 		@Override
 		protected Void doInBackground() throws Exception{
-			theModel.blurButton();
-			System.out.println("Updating processed img..");
-			updateImg(theModel.loadBlur.outputImage);
-			System.out.println("Updating processed img finished..");
-//			displayOutput(theModel.loadBlur.outputImage);
+			if(!edgeDec){
+				theModel.exportBlur();
+			}else{
+				theModel.exportEdge();
+			}
 			return null;
 		}
 	}
+	
+	class EdgeInController extends SwingWorker<Void, Void>{
+		@Override
+		protected Void doInBackground() throws Exception{
+			theModel.edgeDetection();
+			System.out.println("Updating processed img..");
+			updateImg(theModel.loadEdge.outputImage);
+			System.out.println("Updating processed img finished..");
+			return null;
+		}
+	}
+	
+	class BlurInController extends SwingWorker<Void, Void>{
+		@Override
+		protected Void doInBackground() throws Exception{
+			blurIter = theView.blurSlider.getValue();
+			prevSlider = blurIter;
+			System.out.println("BlurNum: " + blurIter);
+			updateImg(theModel.map.get(blurIter));
+			return null;
+		}
+	}
+	
 	class LoadInController extends SwingWorker<Void, Void>{
 		@Override
 		protected Void doInBackground() throws Exception{
@@ -97,9 +125,11 @@ public class Controller  implements ActionListener, ChangeListener {
 			if (selected == null) {
 				return null;
 			}
+			String filename = selected.getAbsolutePath();
 			theView.statusLabel.setText("Current image: " + selected.getName());
 			System.out.println("Loading Image from " + selected.getName() + " ...");
-			theModel.loadFile(selected.getName(), "outputBlurTest.jpg", "outputSobelEdgesTest.jpg");
+			
+			theModel.loadFile(filename, selected.getName(), "SobelEdges-" + selected.getName());
 			theView.statusLabel.setText("Current image: "+ theModel.loadBlur.inputFileName);
 			System.out.println("Loading complete.");
 			System.out.println("Image: " + theModel.loadBlur.inputFileName);
@@ -111,29 +141,14 @@ public class Controller  implements ActionListener, ChangeListener {
 		}
 	}
 	
-	private void loadFile() throws IOException{
-//		if (theView.fileChooser.showOpenDialog(theView.frame) != JFileChooser.APPROVE_OPTION) {
-//			return;
-//		}
-//		File selected = theView.fileChooser.getSelectedFile();
-//		if (selected == null) {
-//			return;
-//		}
-//		theView.statusLabel.setText("Current image: " + selected.getName());
-//		System.out.println("Loading Image from " + selected.getName() + " ...");
-//		theModel.loadFile(selected.getName(), "outputBlurTest.jpg", "outputSobelEdgesTest.jpg");
-//		theView.statusLabel.setText("Current image: "+ theModel.loadBlur.inputFileName);
-//		System.out.println("Loading complete.");
-//		System.out.println("Image: " + theModel.loadBlur.inputFileName);
-//		System.out.println("Mission Complete");
-//		System.out.println("Updating original img..");
-//		updateImg(theModel.loadBlur.currentImg);
-//		System.out.println("Updating original img finished...");
+	private void loadStorageFile() throws IOException{
 		 new LoadInController().execute();
+	}
+	private void loadLinkFile() throws IOException{
+		
 	}
 	
 	public JLabel createIcon(BufferedImage img) {
-		System.out.println("NNNNNNNNNNNNN");
 		ImageIcon icon = new ImageIcon(img);
 		icon.setImage(img.getScaledInstance(480, 360, Image.SCALE_DEFAULT));
 		JLabel label = new JLabel(icon);
@@ -146,17 +161,10 @@ public class Controller  implements ActionListener, ChangeListener {
 		theView.p5.validate();
 	}
 	
-	public void displayOutput(BufferedImage outputImg) {
-		theView.p6.add(createIcon(outputImg));
-		theView.frame.remove(theView.p5);
-		theView.frame.add(theView.p5, BorderLayout.EAST);
-		theView.frame.add(theView.p6, BorderLayout.WEST);
-		
-	}
-	
 	public static void main(String[] args){
 		View view = new View();
 		Model model = new Model();
 		Controller test = new Controller(view, model);
+		model.setTheController(test);
 	}
 }
