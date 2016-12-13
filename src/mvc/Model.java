@@ -9,7 +9,11 @@ import java.util.HashMap;
 import ImageProcessing.Blur;
 import ImageProcessing.SobelEdges;
 import database.Loadfile;
-
+/**
+ * The model will use the algorithms in image processing package
+ * to handle all the processing
+ *
+ */
 public class Model {
 	Loadfile loadBlur;
 	Loadfile loadEdge;

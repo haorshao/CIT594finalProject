@@ -17,7 +17,11 @@ import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
+/**
+ * Combine the view and model together. 
+ * Achieve the image processing functions.
+ *
+ */
 public class Controller  implements ActionListener, ChangeListener {
 	View theView;
 	Model theModel;

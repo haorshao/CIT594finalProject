@@ -1,7 +1,10 @@
 package ImageProcessing;
 
 import database.Pixels;
-
+/**
+ * Sobel is the specific algorithm and output the result
+ *
+ */
 public class SobelEdges {
 	Pixels current;
 	short[][] redResult;

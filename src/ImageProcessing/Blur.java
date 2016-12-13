@@ -3,7 +3,10 @@ package ImageProcessing;
 import java.awt.image.BufferedImage;
 
 import database.Pixels;
-
+/**
+ * Blur is the specific algorithm and output the result
+ *
+ */
 public class Blur {
 	private int numIter = 1;
 	Pixels current;

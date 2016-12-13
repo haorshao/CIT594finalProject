@@ -2,7 +2,10 @@ package database;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-
+/**
+ * Pixels will store the image, color array and its type
+ *
+ */
 public class Pixels {
 		private int width;
 		private int height;

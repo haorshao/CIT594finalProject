@@ -23,7 +23,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeListener;
 /**
- * GUI view
+ * GUI view, design all components and their layouts
  * @author Jiawei Xue
  *
  */
